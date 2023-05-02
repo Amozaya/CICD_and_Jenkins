@@ -100,7 +100,7 @@ Benefits of Jenkins:
     * In `Repository URL` copy an `ssh` link from your GitHub project
     * In `Credentials` select the key. If you don't have a key created yet, click on `Add` and then `Jenkins`:
 
-            ![Credential provider jenkins](resources/jenkins_credential_provider.JPG)
+        ![Credential provider jenkins](resources/jenkins_credential_provider.JPG)
 
             1. In `Kind` select `SSH Username with private key`
             2. In `username` enter your key name
