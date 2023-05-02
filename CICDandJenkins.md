@@ -107,7 +107,7 @@ Benefits of Jenkins:
             3. In `Private key` select `Enter directly`
             4. Click on `Add`
             5. In bash terminal, use `cat oleg_jenkins_key` in order to display the content of your private key
-            6. **Copy all of the content from the key** 
+            6. Copy all of the content from the key
             7. Paste the content into Jenkins
             8. Click `Add`
     * In `Branches to build` change it to `main`
