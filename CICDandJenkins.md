@@ -1,5 +1,7 @@
 # CI/CD and Jenkins
 
+### Testing CI from github
+
 ## What is CI
 
 CI - automates the process of merging/commiting the code to master branch. It automatically builds and tests the new code as it's being merged. Helpes to eliminate any errors or security problems on the early stages.
