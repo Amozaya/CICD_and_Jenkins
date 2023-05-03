@@ -1,6 +1,6 @@
 # CI/CD and Jenkins
 
-### Testing CI via dev branch with webhook trigger
+### Testing CI via dev branch and merging to main
 
 ## What is CI
 
