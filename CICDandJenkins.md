@@ -158,3 +158,87 @@ Benefits of Jenkins:
 3. If you click on the sphere you can see the console output:
 
     ![Console output jenkins](resources/jenkins_console_output.JPG)
+
+
+
+
+## Creating a webhook trigger
+
+1. Open your GitHub project
+2. Go into project `Settings`
+3. In the settings search for `Webhooks`
+4. Click `Add webhook`
+5. In the webhook settings:
+    * Payload URL - copy Jenkins url
+    * Content type - chose `application/json`
+    * Select `Just the push event`
+    * Click on `Add webhook`
+6. Go to Jenkins
+7. Open your task configuration
+8. In Build triggers select `GitHub hook trigger for GITScm polling`:
+
+    ![Build trigger jenkins](resources/jenkins_build_trigger.JPG)
+9. Now, if you push the changes to your GitHub it should automatically trigger the test on Jenkins
+
+
+## Automating CI pipiline
+
+### Step 1. Create a new branch on GitHub
+
+1. Open your Project in VS code
+2. In the Git terminal type `git branch dev` to create a dev branch
+3. Use `git checkout dev` to switch to `dev` branch by default
+4. Now, use `git push -u origin dev` to push your changes to dev branch
+
+### Step 2. Create a job to test a code from dev branch
+
+1. Go to your Jenkins
+2. Create a new task. As it will be identical to the previous task we've created we could use that as a template to copy settings from it
+3. In `Source Code Management` change `Branches to build` to `dev`:
+
+    ![Dev branch source](resources/jenkins_source_dev.JPG)
+
+4. The rest you can leave as it is. Click `Save`
+5. Use `Build Now` in order to test the job manually
+
+### Step 3. Merge dev branch with main branch
+
+1. Create a new task on Jenkins
+2. In `General`:
+
+    ![Merge task general settings](resources/jenkins_merge_general.JPG)
+
+    * Write a description
+    * Set `Discard old builds` to 3
+    * `GitHub Project` copy https link to your project and paste it there
+
+3. In `Source Code management` copy the settings from the previous task. Then click on `Add` in Additional Behaviours and select `Merge before build`:
+
+    ![Merge before build settings](resources/jenkins_merge_source_management.JPG)
+
+    * `Name of repository` - set to `origin`
+    * `Branch to merge to` - set to `main`
+    * Rest leave to default
+
+4. In `Post-build Action` click on `Add` and select `Git Publisher`:
+
+    ![Git Publisher settings](resources/jenkins_merge_postbuild.JPG)
+
+    * Enable `Push only if build successful`
+    * Enable `Merge Results`
+
+5. Click on save
+6. Use `Build Now` in order to test the job manually
+
+### Step 4. Trigger merge job if test is successful
+
+1. Go back to your `CI` job configuration
+2. Scroll down to `Post-build actions` and add `Build other projects`
+3. In `projects to build` type the name of the project you want to run, for example `oleg_ci_merge`
+
+    ![Post-build action to trigger merge](resources/jenkins_postbuild_action.JPG)
+
+
+4. Save your project
+5. Now, to test if it works, push some changes form your local repo and it should trigger the test first, and if the test is successful it will then merge the changes from dev branch to main branch and push the changes to your GitHub
+ 
