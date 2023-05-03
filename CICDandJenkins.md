@@ -181,7 +181,7 @@ Benefits of Jenkins:
 9. Now, if you push the changes to your GitHub it should automatically trigger the test on Jenkins
 
 
-## Automating CI pipiline
+## Automating CI pipeline
 
 ### Step 1. Create a new branch on GitHub
 
@@ -241,4 +241,4 @@ Benefits of Jenkins:
 
 4. Save your project
 5. Now, to test if it works, push some changes form your local repo and it should trigger the test first, and if the test is successful it will then merge the changes from dev branch to main branch and push the changes to your GitHub
- 
+
