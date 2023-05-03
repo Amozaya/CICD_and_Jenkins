@@ -1,6 +1,6 @@
 # CI/CD and Jenkins
 
-### Testing CI from github
+### Testing CI via webhook from github
 
 ## What is CI
 
