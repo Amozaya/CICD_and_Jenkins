@@ -242,3 +242,43 @@ Benefits of Jenkins:
 4. Save your project
 5. Now, to test if it works, push some changes form your local repo and it should trigger the test first, and if the test is successful it will then merge the changes from dev branch to main branch and push the changes to your GitHub
 
+
+## Create a CD pipeline
+
+1. Launch a new EC2 Instance
+2. Use `App AMI`, as it already has all the dependancies installed
+3. Add new security group:
+
+    ![EC2 SG for Jenkins connection](resources/ec2_jenkins_SG.JPG)
+
+    * Add SSH port 22 for your IP
+    * Add SSH port 22 for Jenkins IP
+    * Add HTTP port 80 for 0.0.0.0
+    * Add Custom TCP for port 3000 with 0.0.0.0
+    * Add Custom TCP for port 8080 (Jenkins port) with 0.0.0.0
+
+4. Launch the instance
+5. Go to Jenkins
+6. Create a new job
+7. In General settings add description and set `discard old builds` to 3
+8. In Source code management set to `Git`, Repository URL paste your `ssh` link to github repo, in credetials select the jenkins key, and in branches to build write `main`
+9. In Build Triggers select `GitHub hook trigger`
+10. In Build Environment select `ssh agent`. There you have to add your AWS pem file, similar to have we add ssh private key for github connection
+11. Write Execute shell script to run  when connecting to EC2:
+
+```
+scp -v -r -o StrictHostKeyChecking=no app/ ubuntu@52.50.88.203:/home/ubuntu/
+ssh -A -o StrictHostKeyChecking=no ubuntu@52.50.88.203 <<EOF
+#sudo apt install clear#
+
+cd app
+#sudo npm install pm2 -g
+# pm2 kill
+nohup node app.js > /dev/null 2>&1 &
+```
+
+12. Save your job.
+13. Now, if you make any changes to the app and push code from your local repo, it should trigger all the job we written above and then it will launch an updated version of the app on the EC2 instance. For example, I change index page text and background color and here is the result:
+
+    ![CI/CD pipeline established](resources/CD_app_deployment.JPG)
+
